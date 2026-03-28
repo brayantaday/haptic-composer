@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Haptic Composer - App de Conducción Segura</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #0f172a;
+      color: white;
+      padding: 20px;
+    }
+    h1 { margin-bottom: 40px; }
+    button {
+      font-size: 28px;
+      padding: 25px 40px;
+      margin: 15px;
+      border: none;
+      border-radius: 15px;
+      width: 80%;
+      max-width: 400px;
+      cursor: pointer;
+    }
+    .exito { background: #22c55e; color: black; }
+    .alerta { background: #eab308; color: black; }
+    .error { background: #ef4444; color: white; }
+    .info {
+      margin-top: 50px;
+      font-size: 18px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+  <h1>🚗 Haptic Composer</h1>
+  <p><strong>App de Conducción Segura</strong><br>Recibe alertas solo con vibraciones (sin mirar la pantalla)</p>
+
+  <button class="exito" onclick="vibrar('exito')">ÉXITO DE RUTA ✅</button>
+  <button class="alerta" onclick="vibrar('alerta')">ALERTA ⚠️</button>
+  <button class="error" onclick="vibrar('error')">ERROR CRÍTICO ❌</button>
+
+  <div class="info">
+    Cierra los ojos y presiona los botones.<br>
+    ¿Puedes adivinar cuál es cada estado solo por la vibración?
+  </div>
+
+  <script>
+    function vibrar(tipo) {
+      if (!navigator.vibrate) {
+        alert("Tu navegador no soporta vibración (prueba en Android Chrome)");
+        return;
+      }
+
+      if (tipo === 'exito') {
+        navigator.vibrate([50]);           // toque seco y corto
+      } else if (tipo === 'alerta') {
+        navigator.vibrate([100, 50, 100]); // dos pulsos rápidos
+      } else if (tipo === 'error') {
+        navigator.vibrate([500]);          // vibración larga y pesada
+      }
+    }
+  </script>
+</body>
+</html>
