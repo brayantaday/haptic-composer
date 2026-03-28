@@ -5,32 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Haptic Composer - App de Conducción Segura</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: #0f172a;
-      color: white;
-      padding: 20px;
-    }
+    body { font-family: Arial, sans-serif; text-align: center; background: #0f172a; color: white; padding: 20px; }
     h1 { margin-bottom: 40px; }
-    button {
-      font-size: 28px;
-      padding: 25px 40px;
-      margin: 15px;
-      border: none;
-      border-radius: 15px;
-      width: 80%;
-      max-width: 400px;
-      cursor: pointer;
-    }
+    button { font-size: 28px; padding: 25px 40px; margin: 15px; border: none; border-radius: 15px; width: 80%; max-width: 400px; cursor: pointer; }
     .exito { background: #22c55e; color: black; }
     .alerta { background: #eab308; color: black; }
     .error { background: #ef4444; color: white; }
-    .info {
-      margin-top: 50px;
-      font-size: 18px;
-      opacity: 0.8;
-    }
+    .info { margin-top: 50px; font-size: 18px; opacity: 0.8; }
   </style>
 </head>
 <body>
@@ -48,17 +29,34 @@
 
   <script>
     function vibrar(tipo) {
+      const status = document.createElement('div');
+      status.style.position = 'fixed';
+      status.style.bottom = '20px';
+      status.style.left = '20px';
+      status.style.background = '#22c55e';
+      status.style.color = 'black';
+      status.style.padding = '10px';
+      status.style.borderRadius = '8px';
+      status.textContent = 'Intentando vibrar...';
+      document.body.appendChild(status);
+
       if (!navigator.vibrate) {
-        alert("Tu navegador no soporta vibración (prueba en Android Chrome)");
+        status.textContent = '❌ Tu navegador NO soporta vibración';
+        status.style.background = '#ef4444';
         return;
       }
 
-      if (tipo === 'exito') {
-        navigator.vibrate([50]);           // toque seco y corto
-      } else if (tipo === 'alerta') {
-        navigator.vibrate([100, 50, 100]); // dos pulsos rápidos
-      } else if (tipo === 'error') {
-        navigator.vibrate([500]);          // vibración larga y pesada
+      let patron = [];
+      if (tipo === 'exito') patron = [50];
+      else if (tipo === 'alerta') patron = [100, 50, 100];
+      else if (tipo === 'error') patron = [500];
+
+      const ok = navigator.vibrate(patron);
+      if (ok) {
+        status.textContent = '✅ Vibrando: ' + tipo;
+      } else {
+        status.textContent = '❌ No se pudo vibrar (revisa configuración del celular)';
+        status.style.background = '#ef4444';
       }
     }
   </script>
